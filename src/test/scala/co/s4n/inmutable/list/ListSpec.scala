@@ -30,13 +30,28 @@ class ListSpec extends AnyFlatSpec with Matchers {
   }
 
   "El ejercicio 4 " should "  true si todo es verdadero" in {
-    val lst = List(true,true,true,true,true)
+    val lst = List(true,true,true,true)
     List.and(lst) shouldEqual true
   }
 
   "El ejercicio 4 " should "  false si no todo es verdadero" in {
-    val lst = List(true,true,false,true,true)
+    val lst = List(true,true,false,true)
     List.and(lst) shouldEqual false
+  }
+
+  "El ejercicio 5 " should "  false si todo es falso" in {
+    val lst = List(false,false,false,false)
+    List.or(lst) shouldEqual false
+  }
+
+  "El ejercicio 6 " should " devuelve valor máximo de lista " in {
+    val lst = List(3,1,8,9,2,7)
+    List.max(lst) shouldEqual 9
+  }
+
+  "El ejercicio 6 " should " devuelve valor mínimo de lista " in {
+    val lst = List(3L,1L,8L,9L,2L,7L)
+    List.min(lst) shouldEqual 1
   }
 }
 

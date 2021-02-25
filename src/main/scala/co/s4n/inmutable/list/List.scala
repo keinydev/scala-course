@@ -47,6 +47,7 @@ object List {
       case Const(true,t) => true
       case Const(false,t) => or(t)
    }
+
    /**
     * Esta función recibe un arreglo de valores Int y devuelve valor máximo de todos los valores en la lista
     * @param Int lst
@@ -58,7 +59,21 @@ object List {
          case Nil => valorMax
          case Const(h,t) => maxInterno(t, if(h > valorMax) h else valorMax)
       }
-      maxInterno(lst, Int.MaxValue)
+      maxInterno(lst, 1)
+   }
+
+   /**
+    * Esta función recibe un arreglo de valores Long y devuelve valor mı́nimo de todos los valores en la lista.
+    * @param Long lst
+    * @return Long Retorna la lista
+    */
+   def min(lst:List[Long]): Long = {
+      @tailrec
+      def minInterno(lst:List[Long], valorMin:Long):Long = lst match {
+         case Nil => valorMin
+         case Const(h,t) => minInterno(t, if(h < valorMin) h else valorMin)
+      }
+      minInterno(lst, 1)
    }
 
    /**
@@ -95,14 +110,5 @@ object List {
       if (as.isEmpty) Nil
       else Const(as.head, apply (as.tail: _*))
    }
-/*
-   Ejercicio 1 = resultado 9
-   val x=List(4,5,6,7,8) match{
-      case Const(x, Const(5, Const(7,_))) =>x
-      case Nil => 1
-      case Const(x, Const(y, Const(6,Const(7,_)))) => x + y
-      case Const(h,t) => h+sum(t)
-      case _ => 777
-   }  */
 }
 
