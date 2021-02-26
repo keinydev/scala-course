@@ -77,6 +77,29 @@ object List {
    }
 
    /**
+    * Esta función recibe un arreglo de valores Double y devuelve valor (mı́nimo,máximo) de todos los valores en la lista
+    * @param Double lst
+    * @return Long Retorna las tuplas del resultas
+    */
+   def minMax(lst:List[Double]):(Double, Double) = {
+
+      @tailrec
+      def minInterno(lst:List[Double], valorMin:Double):Double = lst match {
+         case Nil => valorMin
+         case Const(h, t) => minInterno(t, if(h < valorMin) h else valorMin)
+      }
+
+      def maxInterno(lst:List[Double], valorMax:Double):Double = lst match {
+         case Nil => valorMax
+         case Const(h, t) => maxInterno(t, if(h > valorMax) h else valorMax)
+      }
+      val maximo:Double = maxInterno(lst,0)
+      val minimo:Double = minInterno(lst, List.head(lst))
+
+      (minimo, maximo)
+   }
+
+   /**
     * Devuelve la longitud de la lista
     * @param Int lst
     * @return boolean
