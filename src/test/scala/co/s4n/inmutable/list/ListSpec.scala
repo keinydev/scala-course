@@ -58,5 +58,30 @@ class ListSpec extends AnyFlatSpec with Matchers {
     val lst = List(3.0,1.0,8.0,9.0,2.0,7.0)
     List.minMax(lst) shouldEqual (1.0,9.0)
   }
+
+  "Drop drop(2,List(1,2,3,4,5)) " should " devolver List(3,4,5) = Const(3,Const(4,Const(5,Nil)))" in {
+    val lst = List(1,2,3,4,5)
+    List.drop(2, lst) shouldEqual Const(3,Const(4,Const(5,Nil)))
+  }
+
+  "split split(3,List(1,2,3,4,5,6)) " should " devolver (Const(1,Const(2,Const(3,Nil))),Const(4,Const(5,Const(6,Nil)))" in {
+    val lst = List(1,2,3,4,5,6)
+    List.split(3, lst) shouldEqual (Const(1,Const(2,Const(3,Nil))),Const(4,Const(5,Const(6,Nil))))
+  }
+
+  "Función take: take(3,List(\"a\",\"b\",\"c\",\"d\",\"e\")) " should " devolver List(\"a\",\"b\",\"c\")" in {
+    val lst = List("a","b","c","d","e")
+    List.take(3, lst) shouldEqual List("a","b","c")
+  }
+
+  "Función init: init(List(1,2,3,4,5,6)) " should " devolver List(1,2,3,4,5)" in {
+    val lst = List(1,2,3,4,5,6)
+    List.init(lst) shouldEqual List(1,2,3,4,5)
+  }
+
+  "Función split: split(3,List(1,2,3,4,5,6,7)) " should " devolver (Const(1,Const(2,Const(3,Nil))),Const(4,Const(5,Const(6,Const(7,Nil)))))" in {
+    val lst = List(1,2,3,4,5,6,7)
+    List.split(3,lst) shouldEqual (Const(1,Const(2,Const(3,Nil))),Const(4,Const(5,Const(6,Const(7,Nil)))))
+  }
 }
 
