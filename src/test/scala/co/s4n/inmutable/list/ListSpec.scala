@@ -83,5 +83,22 @@ class ListSpec extends AnyFlatSpec with Matchers {
     val lst = List(1,2,3,4,5,6,7)
     List.split(3,lst) shouldEqual (Const(1,Const(2,Const(3,Nil))),Const(4,Const(5,Const(6,Const(7,Nil)))))
   }
+
+  "Función zip: zip(List(1,2,3),List(true,false,true,true)) " should " devolver List((1,true),(2,false),(3,true))" in {
+    List.zip(List(1,2,3),List(true,false,true,true)) shouldEqual List((1,true),(2,false),(3,true))
+  }
+
+  "Función unzip: unzip(List((1,\"a\"),(2,\"b\"),(3,\"c\")) " should " devolver (List(1,2,3),List(\"a\",\"b\",\"c\")) " in {
+    List.unzip(List((1,"a"),(2,"b"),(3,"c"))) shouldEqual (List(1,2,3),List("a","b","c"))
+  }
+
+  "Función reverse: reverse(List(\"a\",\"b\",\"c\")) " should " devolver List(\"c\", \"b\", \"a\") = Const(c,Const(b,Const(a,Nil)))" in {
+    val lst = List("a","b","c")
+    List.reverse(lst) shouldEqual List("c", "b", "a")
+  }
+
+  "Función concat: concat(List(List(1.0,2.0),Nil,List(3.0,4.0))) " should " devolver List(1.0,2.0,3.0,4.0) = Const(2,Const(1,Const(3,Const(1,Const(4,Const(1,Const(5,Const(1,Nil))))))))" in {
+    List.concat(List(List(1.0,2.0),Nil,List(3.0,4.0))) shouldEqual List(1.0,2.0,3.0,4.0)
+  }
 }
 
