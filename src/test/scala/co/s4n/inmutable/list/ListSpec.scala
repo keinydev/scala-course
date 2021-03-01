@@ -142,6 +142,14 @@ class ListSpec extends AnyFlatSpec with Matchers {
     List.takeWhileFoldLeft(lst1)(_%2 == 0) shouldEqual List(2,4,6)
   }
 
+  "Función unzip: unzipFoldRight(List((1,\"a\"),(2,\"b\"),(3,\"c\")) " should " devolver (List(1,2,3),List(\"a\",\"b\",\"c\")) " in {
+    List.unzipFoldRight(List((1,"a"),(2,"b"),(3,"c"))) shouldEqual (List(1,2,3),List("a","b","c"))
+  }
+
+  "Función unzip: unzipFoldLeft(List((1,\"a\"),(2,\"b\"),(3,\"c\")) " should " devolver (List(1,2,3),List(\"a\",\"b\",\"c\")) " in {
+    List.unzipFoldLeft(List((1,"a"),(2,"b"),(3,"c"))) shouldEqual (List(1,2,3),List("a","b","c"))
+  }
+
   "Función filter using foldRight: List(1,2,3,4,5,6,7)" should " devolver List(2,4,6)" in {
     val lst1 = List(1,2,3,4,5,6,7)
     List.filterFoldRight(lst1)(_<4) shouldEqual List(1,2,3)
