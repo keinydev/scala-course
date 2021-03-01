@@ -64,6 +64,17 @@ class ListSpec extends AnyFlatSpec with Matchers {
     List.drop(2, lst) shouldEqual Const(3,Const(4,Const(5,Nil)))
   }
 
+  "Drop dropWhile " should " devolver items mayor a 3 " in {
+    val lst1 = List(1,2,3,4,5,6)
+    List.dropWhile(lst1)(y => y < 3) shouldEqual Const(3,Const(4,Const(5,Const(6,Nil))))
+  }
+
+  "Drop dropWhile " should " devolver items mayor a 1" in {
+    val lst1 = List(1,2,3,4,5,6)
+    val funLista = List.dropWhile(lst1)(_)
+    funLista(x=> x >= 0 && x <= 1) shouldEqual Const(2,Const(3,Const(4,Const(5,Const(6,Nil)))))
+  }
+
   "split split(3,List(1,2,3,4,5,6)) " should " devolver (Const(1,Const(2,Const(3,Nil))),Const(4,Const(5,Const(6,Nil)))" in {
     val lst = List(1,2,3,4,5,6)
     List.split(3, lst) shouldEqual (Const(1,Const(2,Const(3,Nil))),Const(4,Const(5,Const(6,Nil))))
@@ -100,5 +111,16 @@ class ListSpec extends AnyFlatSpec with Matchers {
   "Función concat: concat(List(List(1.0,2.0),Nil,List(3.0,4.0))) " should " devolver List(1.0,2.0,3.0,4.0) = Const(2,Const(1,Const(3,Const(1,Const(4,Const(1,Const(5,Const(1,Nil))))))))" in {
     List.concat(List(List(1.0,2.0),Nil,List(3.0,4.0))) shouldEqual List(1.0,2.0,3.0,4.0)
   }
+
+  "Función reduce: suma List(1,2,3,4) " should " devolver 10" in {
+    val lst1 = List(1,2,3,4)
+    List.reduce(lst1,0)((x,y)=>x+y) shouldEqual 10
+  }
+
+  "Función reduce: producto List(1,2,3,4) " should " devolver 10" in {
+    val lst1 = List(1,2,3,4)
+    List.reduce(lst1,1)((x,y)=>x*y) shouldEqual 24
+  }
+
 }
 

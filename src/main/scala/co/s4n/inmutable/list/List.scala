@@ -179,6 +179,18 @@ object List {
    }
 
    /**
+    * Esta función elimina de la lista elementos según la condición de la función recibida
+    * @param lst Lista
+    * @param f Función
+    * @return Nuevos valores computados
+    */
+   def dropWhile[A](lst:List[A])(f:A=>Boolean):List[A] = lst match{
+      case Nil => Nil
+      case Const(h,t) if f(h) => dropWhile(t)(f)
+      case _ => lst
+   }
+
+   /**
     * Esta función se encarga de tomar los n primeros valores, si existen de la lista y retornarlos
     * @param Int n
     * @param lst Lista
@@ -340,5 +352,70 @@ object List {
       }
       concatInterno(lst, Nil)
    }
+
+   /**
+    * Esta función filtra la lista según la condición que se le envíe en la otra función a ejecutar
+    * @param lst Lista
+    * @param z Valor a calcular
+    * @param f Función resultante
+    * @return Nueva lista computada
+    */
+   def reduce(lst:List[Int],z:Int)(f:(Int,Int)=>Int):Int = lst match {
+      case Nil => z
+      case Const(h,t) => f(h, reduce(t,z)(f))
+   }
+
+   def sumaReduce(lst:List[Int]) = reduce(lst,0)((x,y) => x + y)
+
+   def productoReduce(lst:List[Int]) = reduce(lst,1)((x,y) => x * y)
+
+   /**
+    * Función que computa otras funciones pero lee los datos desde la derecha hacia la izquierda (final - inicio).
+    * No tiene recursividad de cola
+    * @param as Lista
+    * @param z Valor a usar para operar
+    * @param f Función a ejecutar (Recibe dos parámetros)
+    * @return Nueva función computada
+    */
+   def foldRight[A,B](as:List[A], z:B)(f: (A,B) => B):B = as match {
+      case Nil => z
+      case Const(h,t) => f(h,foldRight(t,z)(f))
+   }
+
+   def sumaFR(lst:List[Int]) = foldRight(lst,0)((x,y) => x + y)
+   def sumaFROptimizada(lst:List[Int]) = foldRight(lst,0)(_+_)
+
+   def productoFR(lst:List[Int]) = foldRight(lst,1)((x,y) => x * y)
+   def productoFROptimizada(lst:List[Int]) = foldRight(lst,1)(_*_)
+
+   def lenghtFR[A](lst:List[A]):Int = foldRight(lst,0)((x,y) => 1 + y)
+
+   def sumarUnoFR(lst:List[Int]):List[Int] = foldRight(lst,Nil:List[Int])((elem,lst) => Const(elem + 1, lst))
+
+   def map[A,B](l: List[A])(f: A => B): List[B] = foldRight(l, Nil:List[B])((h,t) => Const(f(h),t))
+
+   /**
+    * Función que computa otras funciones leyendo los datos desde la izquierda a derecha (inicio - final).
+    * @param lst Lista
+    * @param z Valor a usar para operar
+    * @param f Función a ejecutar (Recibe dos parámetros)
+    * @return Nueva función computada
+    */
+   @tailrec
+   def foldLeft[A,B](lst:List[A],z:B)(f:(B,A) => B):B = lst match {
+      case Nil => z
+      case Const(h,t) => foldLeft(t,f(z,h))(f)
+   }
+
+   def sumaL(lst:List[Int]) = foldLeft(lst,0)(_+_)
+   def productoL(lst:List[Int]) = foldLeft(lst,0)(_*_)
+
+
+
+
+
+
+  // def sumarUnoFL(lst:List[Int]):List[Int] =
+   //   foldLeft(lst,Nil)((lst,elem) => elem + 1)
 }
 
