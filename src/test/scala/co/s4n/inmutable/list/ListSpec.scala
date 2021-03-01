@@ -112,15 +112,54 @@ class ListSpec extends AnyFlatSpec with Matchers {
     List.concat(List(List(1.0,2.0),Nil,List(3.0,4.0))) shouldEqual List(1.0,2.0,3.0,4.0)
   }
 
-  "Función reduce: suma List(1,2,3,4) " should " devolver 10" in {
+  "Función reduce: List(1,2,3,4) " should " devolver 10" in {
     val lst1 = List(1,2,3,4)
     List.reduce(lst1,0)((x,y)=>x+y) shouldEqual 10
   }
 
-  "Función reduce: producto List(1,2,3,4) " should " devolver 10" in {
-    val lst1 = List(1,2,3,4)
-    List.reduce(lst1,1)((x,y)=>x*y) shouldEqual 24
+  "Función length using foldRight: List(1,2,3,4,5) " should " devolver 5" in {
+    val lst1 = List(1,2,3,4,5)
+    List.lengthFoldRight(lst1) shouldEqual 5
   }
 
+  "Función and using foldRight: List(true, true, true, true)" should " devolver  true" in {
+    val lst = List(true,true,true,true)
+    List.andFoldRight(lst) shouldEqual true
+  }
+
+  "Función and using foldLeft: List(true, true, true, true)" should " devolver  true" in {
+    val lst = List(true,true,true,true)
+    List.andFoldLeft(lst) shouldEqual true
+  }
+
+  "Función takeWhile using foldRight: List(1,2,3,4,5,6,7)" should " devolver List(2,4,6)" in {
+    val lst1 = List(1,2,3,4,5,6,7)
+    List.takeWhileFoldRight(lst1)(_%2 == 0) shouldEqual List(2,4,6)
+  }
+
+  "Función takeWhile using foldLeft: List(1,2,3,4,5,6,7)" should " devolver List(2,4,6)" in {
+    val lst1 = List(1,2,3,4,5,6,7)
+    List.takeWhileFoldLeft(lst1)(_%2 == 0) shouldEqual List(2,4,6)
+  }
+
+  "Función filter using foldRight: List(1,2,3,4,5,6,7)" should " devolver List(2,4,6)" in {
+    val lst1 = List(1,2,3,4,5,6,7)
+    List.filterFoldRight(lst1)(_<4) shouldEqual List(1,2,3)
+  }
+
+  "Función filter using foldLeft: List(1,2,3,4,5,6,7)" should " devolver List(2,4,6)" in {
+    val lst1 = List(1,2,3,4,5,6,7,8)
+    List.filterFoldLeft(lst1)(_%2==0) shouldEqual List(2,4,6,8)
+  }
+
+  "Función sum using foldRight: List(1,2,3,4,5)" should " devolver 15" in {
+    val lst1 = List(1,2,3,4,5)
+    List.sumFoldRight(lst1) shouldEqual 15
+  }
+
+  "Función sumParamFoldRight using foldRight: sumParamFoldRight(List(1,2,3,4,5),2)" should " devolver List(3,4,5,6,7)" in {
+    val lst1 = List(1,2,3,4,5)
+    List.sumParamFoldRight(lst1,2) shouldEqual List(3,4,5,6,7)
+  }
 }
 

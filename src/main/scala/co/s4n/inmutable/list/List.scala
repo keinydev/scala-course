@@ -382,15 +382,64 @@ object List {
       case Const(h,t) => f(h,foldRight(t,z)(f))
    }
 
-   def sumaFR(lst:List[Int]) = foldRight(lst,0)((x,y) => x + y)
-   def sumaFROptimizada(lst:List[Int]) = foldRight(lst,0)(_+_)
+   /**
+    * Computa la función length de una lista utilizando foldRight
+    * @param lst Lista
+    * @return Retorna el total de items
+    */
+   def lengthFoldRight[A](lst:List[A]):Int = foldRight(lst,0)((x,y) => 1 + y)
 
-   def productoFR(lst:List[Int]) = foldRight(lst,1)((x,y) => x * y)
-   def productoFROptimizada(lst:List[Int]) = foldRight(lst,1)(_*_)
+   /**
+    * Computa la función and usando foldRight
+    * @param lst Lista
+    * @return Validación de booleanos
+    */
+   def andFoldRight(lst:List[Boolean]):Boolean = foldRight(lst,true)(_&&_)
 
-   def lenghtFR[A](lst:List[A]):Int = foldRight(lst,0)((x,y) => 1 + y)
+   /**
+    * La función takeWhile usando foldright aplicada a un predicado p y a una lista lst, retorna el prefijo más largo (posiblemente vacı́o) que satisface p
+    * @param lst Lista
+    * @param p Función a ejecutar
+    * @return Retorna el total de items
+    */
+   def takeWhileFoldRight[A](lst:List[A])(p:A=>Boolean):List[A] = foldRight(lst,Nil:List[A])((x,y) => if (p(x)) Const(x,y) else y)
 
-   def sumarUnoFR(lst:List[Int]):List[Int] = foldRight(lst,Nil:List[Int])((elem,lst) => Const(elem + 1, lst))
+   /**
+    * Filter usando foldright
+    * @param lst Lista
+    * @param p Función de la lista
+    * @return Nuevo filtro
+    */
+   def filterFoldRight[A](lst:List[A])(p:A=>Boolean):List[A] = foldRight(lst, Nil:List[A])((h,t) => if (p(h)) Const(h,t) else t)
+
+   /**
+    * Unzip usando foldRight
+    * @param lst
+    * @return Listas separadas por su tipo
+    */
+   def unzipFoldRight[A,B](lst: List[(A,B)]):(List[A],List[B]) = foldRight(lst,(Nil,Nil):(List[A],List[B]))((h,t) => (Const(h._1,t._1),Const(h._2,t._2)))
+
+   /**
+    * Aplicar suma con foldRight
+    * @param lst Lista de enteros
+    * @return Retorna el total de suma
+    */
+   def sumFoldRight(lst:List[Int]) = foldRight(lst,0)(_+_)
+
+   /**
+    * Sumar n cantidad a cada elemento de la lista
+    * @param lst Lista de enteros
+    * @param n Cantidad a sumar
+    * @return Retorna la suma por cada elemento
+    */
+   def sumParamFoldRight(lst:List[Int],n:Int):List[Int] = foldRight(lst,Nil:List[Int])((elem,lst) => Const(elem + n, lst))
+
+   /**
+    * Aplicar multiplicación con foldRight
+    * @param lst Lista de enteros
+    * @return Retorna el resultado de multiplicar cada item
+    */
+   def productFoldRight(lst:List[Int]) = foldRight(lst,1)(_*_)
 
    def map[A,B](l: List[A])(f: A => B): List[B] = foldRight(l, Nil:List[B])((h,t) => Const(f(h),t))
 
@@ -407,15 +456,55 @@ object List {
       case Const(h,t) => foldLeft(t,f(z,h))(f)
    }
 
-   def sumaL(lst:List[Int]) = foldLeft(lst,0)(_+_)
-   def productoL(lst:List[Int]) = foldLeft(lst,0)(_*_)
+   /**
+    * Calcula el total de una lista usando foldLeft
+    * @param lst Lista
+    * @return Lista calculada
+    */
+   def lengthFoldLeft[A](lst:List[A]):Int = foldLeft(lst, 0)((y,_) => y + 1)
 
+   /**
+    * Computa la función and usando foldLeft
+    * @param lst Lista
+    * @return Validación de booleanos
+    */
+   def andFoldLeft(lst:List[Boolean]):Boolean = foldLeft(lst,true)(_&&_)
 
+   /**
+    * La función takeWhile usando foldLeft aplicada a un predicado p y a una lista lst, retorna el prefijo más largo (posiblemente vacı́o) que satisface p
+    * @param lst Lista
+    * @param p Función a ejecutar
+    * @return Retorna el total de items
+    */
+   def takeWhileFoldLeft[A](lst:List[A])(p:A=>Boolean):List[A] = foldLeft(lst,Nil:List[A])((lst,elem) => if (p(elem)) addEnd(lst,elem) else lst)
 
+   /**
+    * Filter usando foldLeft
+    * @param lst Lista
+    * @param p Función de la lista
+    * @return Nuevo filtro
+    */
+   def filterFoldLeft[A](lst: List[A])(p:A=>Boolean):List[A] = foldLeft(lst, Nil:List[A])((lst,e) => if (p(e)) addEnd(lst,e) else lst)
 
+   /**
+    * Unzip usando foldright
+    * @param lst
+    * @return Listas separadas por su tipo
+    */
+   def unzipFoldLeft[A,B](lst: List[(A,B)]):(List[A],List[B]) = foldLeft(lst,(Nil,Nil):(List[A],List[B]))((lst,elem) => (addEnd(lst._1,elem._1),addEnd(lst._2,elem._2)))
 
+   /**
+    * Aplicar suma con foldLeft
+    * @param lst Lista de enteros
+    * @return Retorna el total de suma
+    */
+   def sumFoldLeft(lst:List[Int]) = foldLeft(lst,0)(_+_)
 
-  // def sumarUnoFL(lst:List[Int]):List[Int] =
-   //   foldLeft(lst,Nil)((lst,elem) => elem + 1)
+   /**
+    * Aplicar multiplicación con foldLeft
+    * @param lst Lista de enteros
+    * @return Retorna el resultado de multiplicar cada item
+    */
+   def productFoldLeft(lst:List[Int]) = foldLeft(lst,0)(_*_)
 }
 
