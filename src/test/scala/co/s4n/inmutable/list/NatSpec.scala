@@ -52,4 +52,16 @@ class NatSpec extends AnyFlatSpec with Matchers {
     val seisNat = Suc(Suc(Suc(Suc(Suc(Suc(Cero))))))
     seis shouldEqual seisNat
   }
+
+  "Suma de addNat(Suc(Suc(Cero)),Suc(Cero))" should " be Suc(Suc(Suc(Cero))) " in {
+    val suma = Nat.addNat(Suc(Suc(Cero)),Suc(Cero))
+    val resultado = Suc(Suc(Suc(Cero)))
+    suma shouldEqual resultado
+  }
+
+  "Producto de prodNat(Suc(Suc(Suc(Cero))),Suc(Suc(Cero)))" should " be Suc(Suc(Suc(Suc(Suc(Suc(Cero)))))) " in {
+    val producto = Nat.prodNat(Suc(Suc(Suc(Cero))),Suc(Suc(Cero)))
+    val resultado = Suc(Suc(Suc(Suc(Suc(Suc(Cero))))))
+    producto shouldEqual resultado
+  }
 }
