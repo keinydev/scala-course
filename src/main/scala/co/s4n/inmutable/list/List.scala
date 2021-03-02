@@ -354,6 +354,30 @@ object List {
    }
 
    /**
+    * Convertir Lista de enteros a lista tipo String
+    * @param lst Lista
+    * @return Lista convertida
+    */
+   def lstInt2String(lst:List[Int]):List[String] = lst match {
+      case Nil => Nil
+      case Const(h,t) => Const(h.toString,lstInt2String(t))
+   }
+
+   /**
+    * Función de map puro
+    * @param lst Lista
+    * @param f Función a ejecutar
+    * @return Retorna función por cada elemento de la lista
+    */
+   def mapGen[A,B](lst:List[A])(f:A=>B):List[B] = lst match {
+      case Nil => Nil
+      case Const(h,t) => Const(f(h),mapGen(t)(f))
+   }
+
+   def sumarUnoMap(lst:List[Int]):List[Int] = mapGen(lst)(_+1)
+
+   def lstInt2StringMap(lst:List[Int]):List[String] = mapGen(lst)(_.toString)
+   /**
     * Esta función filtra la lista según la condición que se le envíe en la otra función a ejecutar
     * @param lst Lista
     * @param z Valor a calcular
@@ -441,6 +465,12 @@ object List {
     */
    def productFoldRight(lst:List[Int]) = foldRight(lst,1)(_*_)
 
+   /**
+    * Función de map con foldRight
+    * @param l Lista
+    * @param f Función a ejecutar
+    * @return La función con ejecución por cada elemento de la lista
+    */
    def map[A,B](l: List[A])(f: A => B): List[B] = foldRight(l, Nil:List[B])((h,t) => Const(f(h),t))
 
    /**
