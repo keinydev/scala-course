@@ -16,4 +16,12 @@ class CounterSpec extends AnyFlatSpec with Matchers {
   "new Counter(5).incr.incr.incr.contador " should " 8 " in {
     new Counter(5).incr.incr.incr.contador shouldEqual 8
   }
+
+  "new Counter(5).incr(10).incr.incr.contador " should " 17 " in {
+    new Counter(5).incr(10).incr.incr.contador shouldEqual 17
+  }
+
+  "new Counter(5).incr.decr(2).contador " should " 4 " in {
+    new Counter(5).incr.decr(2).contador shouldEqual 4
+  }
 }
