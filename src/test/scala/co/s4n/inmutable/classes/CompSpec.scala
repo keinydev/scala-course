@@ -5,12 +5,20 @@ import org.scalatest.matchers.should.Matchers
 
 class CompSpec extends AnyFlatSpec with Matchers {
 
-  "Metodo cuadrado " should " computar el cubo " in {
-    Comp.cuadrado(2) shouldEqual 8
+  "Metodo tipo Float: Cuadrado de 2 " should " 4.0 " in {
+    Comp.cuadrado(2) shouldEqual 4.0
   }
 
-  "Metodo cuadrado " should " computar el cubo usando tipo long" in {
-    Comp2.cuadrado(10L) shouldEqual 1000
+  "Metodo tipo Float: Cubo de 2" should " 8.0" in {
+    Comp.cubo(2) shouldEqual 8.0
+  }
+
+  "Metodo tipo Long: Cuadrado de 10 " should " 100" in {
+    Comp2.cuadrado(10L) shouldEqual 100
+  }
+
+  "Metodo tipo Long: Cubo de 10 " should " 1000" in {
+    Comp2.cubo(10L) shouldEqual 1000
   }
 
   "Usando REPL el objeto debe calcular " should " x valor" in {
