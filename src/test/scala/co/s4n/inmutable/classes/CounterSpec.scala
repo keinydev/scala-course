@@ -24,4 +24,10 @@ class CounterSpec extends AnyFlatSpec with Matchers {
   "new Counter(5).incr.decr(2).contador " should " 4 " in {
     new Counter(5).incr.decr(2).contador shouldEqual 4
   }
+
+  "Usando sumador " should " incrementando el monto original " in {
+    val sum = new Sumador(10)
+    val cont = new Counter(2)
+    cont.ajuste(sum).contador shouldEqual 12
+  }
 }
