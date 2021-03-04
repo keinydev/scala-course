@@ -508,6 +508,25 @@ object List {
     */
    def takeWhileFoldLeft[A](lst:List[A])(p:A=>Boolean):List[A] = foldLeft(lst,Nil:List[A])((lst,elem) => if (p(elem)) addEnd(lst,elem) else lst)
 
+   def takeWhileFoldL[A](lst: List[A])(p: A => Boolean): List[A] = {
+      def f(b:(Boolean,List[A]),a:A):(Boolean,List[A]) = b match {
+         case (true, lst) => if (p(a)) (true,addEnd(lst,a)) else (false,lst)
+         case (false,lst) => b
+      }
+      foldLeft(lst, (true,Nil: List[A]))(f)._2
+   }
+
+   /**
+    * Drop while usando Fold Left
+    * @param lst
+    * @param p
+    * @return Nuevo filtro
+    */
+   def dropWhileFoldLeft[A](lst:List[A])(p:A=>Boolean):List[A] = foldLeft(lst,(true:Boolean,Nil:List[A]))((b,a)=> b match {
+      case (true,_) => if (p(a)) (true, b._2) else (false, addEnd(b._2,a))
+      case (false,_) => if(p(a)) (false,addEnd(b._2,a)) else (false,addEnd(b._2,a))
+   })._2
+
    /**
     * Filter usando foldLeft
     * @param lst Lista
