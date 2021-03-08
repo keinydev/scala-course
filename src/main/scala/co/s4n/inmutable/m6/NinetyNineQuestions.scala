@@ -1,5 +1,6 @@
 package co.s4n.inmutable.m6
 import scala.annotation.tailrec
+import scala.util.Random
 
 object NinetyNineQuestions {
 
@@ -13,6 +14,16 @@ object NinetyNineQuestions {
     case head :: Nil  => head
     case _ :: tail => last(tail)
   }
+
+  /**
+   * Devuelve el último elemento de una lista usando for loop y foldLeft
+   * Precondición: La lista no debe ser vacía
+   * @param ls Lista
+   * @return El último elemento de la lista
+   */
+  def lastFor[A](lst: List[A]):A = (for{
+    xi <- lst
+  } yield ((a:A) => xi)).foldLeft(lst.head)((e,f) => f(e))
 
   /**
    * Devuelve el penúltimo elemento de la lista
@@ -43,10 +54,26 @@ object NinetyNineQuestions {
    * @param lst Lista
    * @return El valor en la posición
    */
-  def elementPosition[A](n: Int, lst: List[A]):A = (n, lst) match {
+  def elementAt[A](n: Int, lst: List[A]):A = (n, lst) match {
     case (1, head :: _  ) => head
-    case (n, _ :: tail) => elementPosition(n - 1, tail)
+    case (n, _ :: tail) => elementAt(n - 1, tail)
   }
+
+  /**
+   * Devuelve el valor que hay la posición buscada usando for y foldLeft
+   * Se usa Option para validar si el indice es igual al contador actual para devolver el valor, de lo contrario
+   * devuelve None hasta que lo encuentre, incrementando el contador
+   * @param n  Posición
+   * @param lst Lista
+   * @return El valor en la posición
+   */
+  def elementAtFor[A](n:Int, lst:List[A]) =(for{
+    xi <- lst
+  } yield ((t:(Int,Option[A])) => (t._2)  match {
+                                            case None => if (t._1 == n) (t._1,Some(xi)) else (t._1+1,None)
+                                            case Some(x) => (t._1,Some(x))
+                                          }
+    )).foldLeft((0,None:Option[A]))((e,f) => f(e))._2.getOrElse(-1)
 
   /**
    * Devuelve longitud de la lista
@@ -57,6 +84,16 @@ object NinetyNineQuestions {
     case Nil       => 0
     case _ :: tail => 1 + length(tail)
   }
+
+  /**
+   * Esta función devuelve el total de una lista usando un for loop y foldLeft.
+   * Para esto se ejecuta una función que ejecute el conteo de cada iteración
+   * @param lst Lista
+   * @return Longitud
+   */
+  def lengthFor[A](lst:List[A]):Int = (for {
+    _<- lst
+  } yield ((a:Int) => a + 1)).foldLeft(0)((e,f) => f(e))
 
   /**
    * Devuelve longitud de la lista usando foldRight
@@ -82,6 +119,8 @@ object NinetyNineQuestions {
     case head :: tail => reverse(tail) ::: List(head)
   }
 
+  def reverseFor[A](lst: List[A]): List[A] = ???
+
   /**
    * Devuelve una lista revertida usando recursión
    * @param lst Lista
@@ -102,7 +141,11 @@ object NinetyNineQuestions {
    * @param lst Lista
    * @return Devuelve validación
    */
-  def isPalindrome[A](lst: List[A]):Boolean = ???
+  def isPalindrome[A](lst: List[A]):Boolean =  lst match {
+    case Nil  => true
+    case x :: Nil  => true
+    case x :: xs  => (x == last(xs) && isPalindrome(xs.init))
+  }
 
   /**
    * Elimina los elementos duplicados consecutivos en una lista
@@ -146,6 +189,8 @@ object NinetyNineQuestions {
     encodeInterno(pack(lst), List())
   }
 
+  //def encodeModified[A](lst:List[A]):List[A] = ???
+
   /**
    * Duplicar cada elemento de la lista
    * @param lst Lista
@@ -157,7 +202,23 @@ object NinetyNineQuestions {
     case head :: tail => head :: head :: duplicate(tail)
   }
 
-//  def replicate(lst: List[A]):List[A] = {
+  /**
+   * Devuelve una lista con los elementos replicados n veces.
+   * Se va restando el iterador la cantidad de veces requerida por cada elemento
+   * Precondición: la cantidad debe ser mayor a cero
+   * @param lst Lista
+   * @param n Cantidad de veces a replicar
+   * @return Lista con elementos replicados
+   */
+  def replicate[A](lst:List[A], n:Int):List[A] = {
+    @tailrec
+    def replicateInterno(lst:List[A], acum:List[A], num:Int, iter:Int):List[A] = (iter, lst) match {
+      case (_, Nil) => acum
+      case (0, head :: tail) => replicateInterno(tail, acum, num, num)
+      case (n, head :: tail) => replicateInterno(lst, acum ::: List(head), num, iter-1)
+    }
+    replicateInterno(lst,Nil,n,n)
+  }
 
   /**
    * Elimina cada n posición que indique el usuario.
@@ -270,11 +331,42 @@ object NinetyNineQuestions {
     case x => if(x > y) x :: range(x - 1, y) else x :: range(x + 1, y)
   }
 
-  def randomSelect[A](n:Int, lst:List[A]):List[A] = ???
+  /**
+   * Devuelve n elementos random de una lista.
+   * Por cada matching, se está generando un aleatorio con la función Random.nextInt y se extrae este nuevo valor con elementAt para agregarlo a una lista nueva + el acumulado
+   * Precondición: n debe ser menor o igual a la cantidad de elementos de la lista.
+   * Ejemplo de uso randomSelect(4,List(1,2,3,4,5,6,7,8,9))
+   * @param n Cantidad de elementos
+   * @param lst Lista
+   * @return
+   */
+  def randomSelect[A](n:Int, lst:List[A]):List[A] = {
+    @tailrec
+    def randomSelectInterno(n: Int, lst:List[A], acum:List[A]):List[A] = n match {
+      case 0 => acum
+      case n => randomSelectInterno(n - 1, lst, (elementAt(Random.nextInt(lst.length),lst) :: acum))
+    }
+    randomSelectInterno(n, lst, Nil)
+  }
 
-  def lotto[A](x:Int, y:Int):List[Int] = ???
+  /**
+   * Dibuja N números aleatorios diferentes del conjunto 1..M.
+   * Usamos la función randomSelect para generar la selección de x cantidad, y usamos range para generar el rango entre 1 y "y"
+   * Ejemplo de uso lotto(3,50)
+   * @param x Cantidad de elementos por lista
+   * @param y Tope del rango a generar (de 1 a y)
+   * @return
+   */
+  def lotto[A](x:Int, y:Int):List[Int] = randomSelect(x, range(1, y))
 
-  //def randomPermute[A](lst:List[A]):List[A] = randomSelect(lst.length, lst)
+  /**
+   * Genera una permutación aleatoria de los elementos de una lista.
+   * Usamos randomSelect para generar los elementos aleatorios de la lista.
+   * Ejemplo de uso randomPermute(List(1,2,3,4,5,6))
+   * @param lst Lista
+   * @return Permutación aleatoria
+   */
+  def randomPermute[A](lst:List[A]):List[A] = randomSelect(lst.length, lst)
 
   /**
    * Genera una combinaciones de n cantidades de una lista
@@ -288,4 +380,25 @@ object NinetyNineQuestions {
     case head :: tail => combinations(q - 1, tail).map(head :: _) ::: combinations(q, tail)
     case Nil => Nil
   }
+
+  /**
+   * Devuelve el head de una lista usando for y foldRight.
+   * Nota: Este es un ejemplo y no hace parte de las preguntas
+   * Precondición: La lista no debe ser vacía
+   * @param lst Lista
+   * @return Head de la lista
+   */
+  def headFor[A](lst: List[A]):A = (for{
+    xi <- lst
+  } yield ((a:A) => xi)).foldRight(lst.head)((f,e) => f(e))
+
+  /**
+   * Permite copiar una lista usando for y foldRight.
+   * Este ejercicio no hace parte de las 99 preguntas
+   * @param lst Lista
+   * @return Lista copiada
+   */
+  def copyFor[A](lst:List[A]) = (for {
+    xi <- lst
+  } yield ((tail:List[A]) => xi :: tail)).foldRight(Nil:List[A])((f,e) => f(e))
 }

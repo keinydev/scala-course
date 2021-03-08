@@ -5,8 +5,16 @@ import org.scalatest.matchers.should.Matchers
 
 class NinetyNineQuestionsSpec extends AnyFlatSpec with Matchers  {
 
+  "headFor(List(List(1,2),List(3,4)))" should " List(1,2)" in {
+    NinetyNineQuestions.headFor(List(List(1,2),List(3,4))) shouldEqual List(1,2)
+  }
+
   "last(List(1,2,3))" should " 3" in {
     NinetyNineQuestions.last(List(1,2,3)) shouldEqual 3
+  }
+
+  "lastFor(List(1,2,3,4,5,6))" should " 6" in {
+    NinetyNineQuestions.lastFor(List(1,2,3,4,5,6)) shouldEqual 6
   }
 
   "penultimate(List(1,2,3))" should " 2" in {
@@ -18,20 +26,32 @@ class NinetyNineQuestionsSpec extends AnyFlatSpec with Matchers  {
   }
 
   "elementPosition(3,List(\"a\",\"b\",\"c\",\"d\",\"e\"))" should " c" in {
-    NinetyNineQuestions.elementPosition(3,List("a","b","c","d","e")) shouldEqual "c"
+    NinetyNineQuestions.elementAt(3,List("a","b","c","d","e")) shouldEqual "c"
+  }
+
+  "elementAtFor(2,List(1,2,3))" should " 3" in {
+    NinetyNineQuestions.elementAtFor(2,List(1,2,3)) shouldEqual 3
+  }
+
+  "elementAtFor(4,List(1,2,3))" should " -1" in {
+    NinetyNineQuestions.elementAtFor(4,List(1,2,3)) shouldEqual -1
   }
 
   "length(List(1,2,3))" should " 3" in {
     NinetyNineQuestions.length(List(1,2,3)) shouldEqual 3
   }
 
+  "lengthFor(List())" should " 0" in {
+    NinetyNineQuestions.lengthFor(List()) shouldEqual 0
+  }
+
   "reverse(List(1,2,3))" should " List(3,2,1)" in {
     NinetyNineQuestions.reverse(List(1,2,3)) shouldEqual List(3,2,1)
   }
 
-//  "isPalindrome(List(1,2,4,8,16,8,4,2,1))" should " true" in {
-//    NinetyNineQuestions.isPalindrome(List(1,2,4,8,16,8,4,2,1)) shouldEqual true
-//  }
+  "isPalindrome(List(1,2,4,8,16,8,4,2,1))" should " true" in {
+    NinetyNineQuestions.isPalindrome(List(1,2,4,8,16,8,4,2,1)) shouldEqual true
+  }
 
   "compress(List(1,2,2,3,4,4,5,6,6,6,7,8,8,9))" should " List(1,2,3,4,5,6,7,8,9)" in {
     NinetyNineQuestions.compress(List(1,2,2,3,4,4,5,6,6,6,7,8,8,9)) shouldEqual List(1,2,3,4,5,6,7,8,9)
@@ -49,9 +69,9 @@ class NinetyNineQuestionsSpec extends AnyFlatSpec with Matchers  {
     NinetyNineQuestions.duplicate(List(1,2,3)) shouldEqual List(1, 1, 2, 2, 3, 3)
   }
 
-//  "replicate(List(1,2,3))" should " List(1, 1, 1, 2, 2, 2, 3, 3, 3)" in {
-//    NinetyNineQuestions.replicate(List(1,2,3)) shouldEqual List(1, 1, 1, 2, 2, 2, 3, 3, 3)
-//  }
+  "replicate(List(1,2,3))" should " List(1, 1, 1, 2, 2, 2, 3, 3, 3)" in {
+    NinetyNineQuestions.replicate(List(1,2,3),3) shouldEqual List(1, 1, 1, 2, 2, 2, 3, 3, 3)
+  }
 
   "split(3,List(1,2,3,4,5,6,7,8,9,10))" should " (List(1, 2, 3),List(4, 5, 6, 7, 8, 9, 10))" in {
     NinetyNineQuestions.split(3,List(1,2,3,4,5,6,7,8,9,10)) shouldEqual (List(1, 2, 3),List(4, 5, 6, 7, 8, 9, 10))
