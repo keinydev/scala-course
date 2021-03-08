@@ -56,4 +56,32 @@ class NinetyNineQuestionsSpec extends AnyFlatSpec with Matchers  {
   "split(3,List(1,2,3,4,5,6,7,8,9,10))" should " (List(1, 2, 3),List(4, 5, 6, 7, 8, 9, 10))" in {
     NinetyNineQuestions.split(3,List(1,2,3,4,5,6,7,8,9,10)) shouldEqual (List(1, 2, 3),List(4, 5, 6, 7, 8, 9, 10))
   }
+
+  "slice(List(1,2,3,4,5,6,7,8,9,10),3,7)" should " List(3, 4, 5, 6, 7)" in {
+    NinetyNineQuestions.slice(List(1,2,3,4,5,6,7,8,9,10),3,7) shouldEqual List(3, 4, 5, 6, 7)
+  }
+
+  "rotate(3, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')) " should " List('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'a', 'b', 'c')" in {
+    NinetyNineQuestions.rotate(3, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')) shouldEqual List('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'a', 'b', 'c')
+  }
+
+  "removeAt(2,List('a','b','x')) " should " (List('a', 'b'),'c')" in {
+    NinetyNineQuestions.removeAt(2,List('a','b','c')) shouldEqual (List('a', 'b'),'c')
+  }
+
+  "insertAt('w',List('a','b','c'),1) " should " List('w','a','b','c')" in {
+    NinetyNineQuestions.insertAt('w',List('a','b','c'),1) shouldEqual List('w','a','b','c')
+  }
+
+  "range(1,5) " should " List(1, 2, 3, 4, 5)" in {
+    NinetyNineQuestions.range(1,5) shouldEqual List(1, 2, 3, 4, 5)
+  }
+
+  "range(5,-1) " should " List(5, 4, 3, 2, 1, 0, -1)" in {
+    NinetyNineQuestions.range(5,-1) shouldEqual List(5, 4, 3, 2, 1, 0, -1)
+  }
+
+  "combinations(2,List('a','b','c','d')) " should " List(List('a', 'b'), List('a', 'c'), List('a', 'd'), List('b', 'c'), List('b', 'd'), List('c', 'd'))" in {
+    NinetyNineQuestions.combinations(2,List('a','b','c','d')) shouldEqual List(List('a', 'b'), List('a', 'c'), List('a', 'd'), List('b', 'c'), List('b', 'd'), List('c', 'd'))
+  }
 }

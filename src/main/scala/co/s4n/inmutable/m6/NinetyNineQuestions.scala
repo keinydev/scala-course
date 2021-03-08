@@ -210,6 +210,82 @@ object NinetyNineQuestions {
     sliceInterno(0, lst, List())
   }
 
+  /**
+   * Esta función rota una lista N lugares a la izquierda
+   * Si la posición es negativa, se comienza desde la izquierda
+   * @param num Indices a rotar
+   * @param ls Lista
+   * @return Lista nueva
+   */
+  def rotate[A](num: Int, ls: List[A]): List[A] = {
+    @tailrec
+    def rotateInterno(num: Int, ls: List[A]): List[A] = (num, ls) match {
+      case (_, Nil) => Nil
+      case (0, _) => ls
+      case (_, head :: tail) => rotateInterno(num - 1, tail ::: List(head))
+    }
 
+    val rotations = if (num > 0) num else num + ls.length
+    rotateInterno(rotations, ls)
+  }
 
+  /**
+   * Esta función elimina una posición de la lista. Si el indice llega a cero,se devuelve el head, de lo
+   * contrario se va disminuyendo el indice hasta que sea cero, devolviendo el acumulado
+   * @param index Index a eliminar
+   * @param lst Lista
+   * @return
+   */
+  def removeAt[A](index: Int, lst: List[A]): (List[A], A) = {
+    @tailrec
+    def removeAtInterno(index: Int, lst: List[A], acum: List[A]): (List[A], A) = (index, lst) match {
+      case (0, head :: tail) => (acum ::: tail, head)
+      case (index, head :: tail) => removeAtInterno(index - 1, tail, acum ::: List(head))
+    }
+    removeAtInterno(index, lst, List())
+  }
+
+  /**
+   * Esta función inserta un elemento en una posición dada en la lista.
+   * El indice se va disminuyendo hasta que se se encuentre la posición a insertar el valor en la lista
+   * @param value Valor a insertar
+   * @param lst Lista
+   * @param index Indice donde se quiere insertar el valor
+   * @return
+   */
+  def insertAt[A](value: A, lst: List[A], index: Int): List[A] =  lst match {
+    case head :: tail => if (index > 1) head :: insertAt(value, tail, index-1) else value :: lst
+    case _ => value :: lst
+  }
+
+  /**
+   * Crea una lista de enteros con el rango indicado.
+   * Si el primer rango es mayor al segundo, se decrementa de lo contrario se va incrementando hasta llegar
+   * @param x Primer número
+   * @param y Último número
+   * @return Lista de rango
+   */
+  def range(x: Int, y: Int) : List[Int] = x match {
+    case x if(x == y) => List(y)
+    case x => if(x > y) x :: range(x - 1, y) else x :: range(x + 1, y)
+  }
+
+  def randomSelect[A](n:Int, lst:List[A]):List[A] = ???
+
+  def lotto[A](x:Int, y:Int):List[Int] = ???
+
+  //def randomPermute[A](lst:List[A]):List[A] = randomSelect(lst.length, lst)
+
+  /**
+   * Genera una combinaciones de n cantidades de una lista
+   * Se va agregando el head + el tail de la iteración restante
+   * @param q Cantidad de combinaciones
+   * @param lst Lista
+   * @return Lista con sublistas de combinaciones
+   */
+  def combinations[A](q: Int, lst: List[A]): List[List[A]] = lst match {
+    case head :: tail if q == 1 => lst.map(List(_))
+    case head :: tail => combinations(q - 1, tail).map(head :: _) ::: combinations(q, tail)
+    case Nil => Nil
+  }
 }
